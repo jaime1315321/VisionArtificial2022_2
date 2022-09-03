@@ -1,0 +1,1 @@
+1) como hace para ver las variables en debug, si a mi se me corta a mitad de proceso
