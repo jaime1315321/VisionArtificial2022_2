@@ -1,0 +1,67 @@
+import cv2
+import numpy as np
+
+captura=cv2.VideoCapture(0)
+
+#'variable'=np.array(['H','S','V'],np.uint8)
+redBajo1=np.array([0,130,40],np.uint8)
+redAlto1=np.array([3,255,255],np.uint8)
+
+redBajo2=np.array([170,50,40],np.uint8)
+redAlto2=np.array([179,255,255],np.uint8)
+
+
+blueBajo=np.array([100,100,20],np.uint8)
+blueAlto=np.array([140,255,255],np.uint8)
+
+yellowBajo=np.array([18,50,75],np.uint8)
+yellowAlto=np.array([24,255,255],np.uint8)
+
+greenBajo=np.array([40,50,75],np.uint8)
+greenAlto=np.array([80,255,255],np.uint8)
+
+celestBajo=np.array([78,50,50],np.uint8)
+celestAlto=np.array([95,255,255],np.uint8)
+
+magentBajo=np.array([130,50,50],np.uint8)
+magentAlto=np.array([170,255,255],np.uint8)
+
+while 1:
+    _,frame=captura.read()
+    frameHSV=cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) # conversion de espacio de color BGR A HSV
+    
+    maskRed1=cv2.inRange(frameHSV,redBajo1,redAlto1)
+    maskRed2=cv2.inRange(frameHSV,redBajo2,redAlto2)
+    maskBlue=cv2.inRange(frameHSV,blueBajo,blueAlto)
+    maskYellow=cv2.inRange(frameHSV,yellowBajo,yellowAlto)
+    maskGreen=cv2.inRange(frameHSV,greenBajo,greenAlto)
+    maskCelest=cv2.inRange(frameHSV,celestBajo,celestAlto)
+    maskMagent=cv2.inRange(frameHSV,magentBajo,magentAlto)
+
+
+    maskTotalRed=cv2.add(maskRed1,maskRed2)
+    maskRealRed=cv2.bitwise_and(frame,frame, mask=maskTotalRed)
+    maskRealBlue=cv2.bitwise_and(frame,frame, mask=maskBlue)
+    maskRealYellow=cv2.bitwise_and(frame, frame, mask=maskYellow)
+    maskRealGreen=cv2.bitwise_and(frame,frame, mask=maskGreen)
+    maskRealCelest=cv2.bitwise_and(frame,frame,mask=maskCelest)
+    maskRealMagent=cv2.bitwise_and(frame,frame,mask=maskMagent)
+
+
+
+    
+
+    cv2.imshow('mask Rojo',maskTotalRed)
+    cv2.imshow('mask azul',maskBlue)
+    cv2.imshow('mask amarillo',maskYellow)
+    cv2.imshow('mask verde', maskGreen)
+    cv2.imshow('mask celeste',maskCelest)
+    cv2.imshow('mask magenta',maskMagent)
+
+    cv2.imshow('maskReal',maskRealCelest)
+    cv2.imshow('frame',frame)
+    if cv2.waitKey(1) & 0xFF==ord('q'):
+        break
+
+captura.release()
+cv2.destroyAllWindows()

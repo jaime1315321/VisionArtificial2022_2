@@ -1,0 +1,61 @@
+import cv2
+import numpy as np
+
+cap=cv2.VideoCapture(0)
+
+while 1:
+    _,frame=cap.read()
+
+    frameG=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    height, width= frameG. shape[:2]
+    imgF=np.zeros((height,width),np.uint8)
+    imgPb=np.zeros((height,width),np.uint8)
+
+    kern1 =  np.array([[1, -2, 1], [-2, 4, -2], [1, -2, 1]])
+    kern2 = np.array([[1/16, 1/8, 1/16 ],[1/8, 1/4, 1/8],[1/16, 1/8, 1/16]])
+    imgF=cv2.filter2D(frameG, ddepth=-1, kernel=kern1, anchor=(-1,-1)) #filtro pasa altas
+    imgPb=cv2.filter2D(imgF,ddepth=-1, kernel=kern2, anchor=(-1,-1)) #filtro pasa bajas 
+    _,th=cv2.threshold(imgPb, 7, 255, cv2.THRESH_BINARY_INV) #imagen binaria inversa
+
+    ######operaciones morfologicas 
+
+    kernel=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
+    apertura = cv2.morphologyEx(th, cv2.MORPH_OPEN, kernel, iterations=1)
+
+    kernelRec=cv2.getStructuringElement(cv2.MORPH_RECT,(3,3))
+    negro=cv2.erode(apertura,kernelRec,iterations=1)
+
+    kernelCruz=cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
+    negro=cv2.erode(negro,kernelCruz,iterations=1)
+
+    kernelCir=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
+    negro=cv2.erode(negro,kernelCir,iterations=1)
+
+    apertura = cv2.morphologyEx(negro, cv2.MORPH_OPEN, kernel, iterations=1)
+
+    #dibujo de circulos 
+    circulos=cv2.HoughCircles(apertura,cv2.HOUGH_GRADIENT,3,450, param1=50, param2=40,minRadius=50,maxRadius=100)
+    circulos=np.uint16(np.around(circulos))
+
+    for circuloActual in circulos[0,:]:
+        centroX=circuloActual[0]
+        centroY=circuloActual[1]
+        radio=circuloActual[2]
+        cv2.circle(frame,(centroX,centroY),radio,(0,255,0),2)
+    
+    cv2.imshow('dect',frame)
+    cv2.imshow('apertura',apertura)
+    cv2.imshow('binaria inversa 1',th)
+
+    #cv2.imshow('frame',frameG)
+    #cv2.imshow('imagen filtrada pasa alta',imgF)
+    #cv2.imshow('imagen filtrada pasa baja',imgPb)
+    #cv2.imshow('imagen dilatada', dilatacion)
+    #cv2.imshow('negro',negro)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows

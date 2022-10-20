@@ -1,0 +1,4 @@
+Se puede concluir que el kernel aplicado a la imagen resultado b, es demaciado borrosa debido al tamaño de la matriz, el cual es el
+número primo 35x35, al analizar la imagen c podemos notar que la imagen resultado con sus correspondientes constantes en la imagen 
+original y la imagen aplicado el filtra gaussiano, menos un número negativo en estacaso el 34, simplemente evidencia cambios en 
+laluminosidad de la imagen.
