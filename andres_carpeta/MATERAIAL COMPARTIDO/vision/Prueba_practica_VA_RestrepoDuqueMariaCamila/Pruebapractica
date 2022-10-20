@@ -1,0 +1,25 @@
+import cv2
+import numpy as numpy
+
+image = cv2.imread('Imagenreferencia.JPG') #Leemos la imagen deseada
+gray=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY) #Se mantiene en escalas de grises
+#ret,th= cv2.threshold(gray,200,255,cv2.THRESH_BINARY_INV) #Se binariza inversamente la imagen para poder obtener mejores resultados
+
+ret, thresh = cv2.threshold(gray, 127, 255, 0)
+contornos, jerarquía = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) #Acá deseamos tener información de los contornos de la imagen
+cnt= contornos[0] #Se crea el contorno de la imagen y se almacena en una nueva variable
+M=cv2.moments(cnt) # Se alojan todos los posibles valores del objeto el cual se calcula
+print(M) #Visualizamos la imegen
+cX=int(M["m10"]/["m00"]) #Hallamos el centro de la imagen en las coordenadas X para posteriormente ubicar el objeto deseado y calcular su área
+cY=int(M["01"]/["m00"]) #Hallamos el centro de la imagen en las coordenadas Y para posteriormente ubicar el objeto deseado y calcular su área
+print (cX); print (cY) #Ubicamos los centros de la imagen en X,Y
+
+area=cv2.contourArea(cnt) #Calcular el área del objeto deseado
+print (area) #Visualizamos el objeto deseado y calculado
+cv2.circle(image,(cX,cY),(255,0,0)-1) #Visualizar el centro de mi imagen y la ubicación del objeto con un punto de un color y tamaño determinado
+cv2.imshow('ImagenReferencia')
+cv2.imshow('original', image)
+
+cv2.waitKey(0)  # El sistema espera por el pulsado de cualquier tecla para cerrar la imagen
+cv2.destroyAllWindows() # Cierre de ventanas
+

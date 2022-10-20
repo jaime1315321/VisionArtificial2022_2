@@ -1,0 +1,8 @@
+Imagen Digital. (2011, mayo). Definición ABC. Recuperado 28 de marzo de 2022, de https://www.definicionabc.com/tecnologia/imagen-digital.php
+
+
+L. Otarola. (2015, agosto). Transformada de Fourier para el procesamiento digital de imágenes. http://lcr.uns.edu.ar/fvc/NotasDeAplicacion/FVC-LucaOtarola.pdf
+
+F. Vela. (2013, marzo). Transformada de Fourier en procesamiento digital de Imágenes Funciones de Variable Compleja. http://lcr.uns.edu.ar/fvc/notasdeaplicacion/fvc-vela%20franco.pdf
+
+Fourier2D. (s. f.). Transformada de Fourier. Aplicación al procesamiento de imágenes. Recuperado 30 de marzo de 2022, de https://www.unioviedo.es/compnum/laboratorios_py/Fourier/Fourier2D.html#compr
