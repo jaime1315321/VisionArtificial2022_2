@@ -135,7 +135,7 @@ def draw_circle(event, x, y, flags, param): # Se declara la funcion
                     rep1x6[i,j,2]= (img4[i,j-1,2]/2+img4[i,j+1,2]/2) #reparar errores en la matriz de rojos
         rep2x6 = np.zeros([height*6, width*6, 3], np.uint8)
         rep2x6[:,:,0] = rep1x6[:,:,0]
-        rep2x6[:,:,1] = rep1x6[:,:,1]
+        rep2x6[:,:,1] = rep1x6[:,:,1]##esto es un comentario
         rep2x6[:,:,2] = rep1x6[:,:,2]
         for i in range(0, height*6-1):
             for j in range(0, width*6):
