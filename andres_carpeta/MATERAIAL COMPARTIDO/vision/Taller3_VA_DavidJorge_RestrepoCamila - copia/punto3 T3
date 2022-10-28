@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+
+cap=cv2.VideoCapture(0)
+
+blueBajo=np.array([92,100,20])
+blueAlto=np.array([140,255,255])
+
+while 1:
+    _,frame=cap.read()
+
+    frameHSV=cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    maskBlue=cv2.inRange(frameHSV,blueBajo,blueAlto)
+
+    contornos,_=cv2.findContours(maskBlue, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    #cv2.drawContours(frame, contornos, -1, (0,255,0), 3)
+    #nota:cv2.drawContours('donde va a dibujar' , 'variable de contorno' ,[1]dibuja todos los contornos , RGB , 'grosor de linea')
+
+    for c in contornos:
+        area=cv2.contourArea(c)
+        if area>100:
+            nuevoContorno=cv2.convexHull(c)
+            cv2.drawContours(frame,[nuevoContorno],0,(255,255,0),3)
+    
+
+    cv2.imshow('mascara azul', maskBlue)
+    cv2.imshow('frame',frame)
+    if cv2.waitKey(1) & 0xFF==ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows

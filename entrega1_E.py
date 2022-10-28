@@ -20,6 +20,7 @@ def draw_circle(event, x, y, flags, param): # Se declara la funcion
     if event == cv2.EVENT_LBUTTONDOWN:  # Se pregunta si se ha presionado el mouse
         drawing = True  # En caso de ser verdado se asigna una variable boleana
         ix, iy = x, y  # Almacenamos la poscion incial en las variales
+        print("click")
 
     elif event == cv2.EVENT_LBUTTONUP:  # Cuando se levante el boton
         print(ix, iy, x, y)
@@ -35,125 +36,7 @@ def draw_circle(event, x, y, flags, param): # Se declara la funcion
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-        rep1x2 = np.zeros([height*2, width*2, 3], np.uint8)
-        rep1x2[:,:,0] = img2[:,:,0]
-        rep1x2[:,:,1] = img2[:,:,1]
-        rep1x2[:,:,2] = img2[:,:,2]
-        for i in range(0, height*2):
-            for j in range(0, width*2-1):
-                if rep1x2[i,j,0]==0:
-                    rep1x2[i,j,0]= (img2[i,j-1,0]/2+img2[i,j+1,0]/2) #reparar errores en la matriz de azules
-                if rep1x2[i,j,1]==0:
-                    rep1x2[i,j,1]= (img2[i,j-1,1]/2+img2[i,j+1,1]/2) #reparar errores en la matriz de verdes
-                if rep1x2[i,j,2]==0:
-                    rep1x2[i,j,2]= (img2[i,j-1,2]/2+img2[i,j+1,2]/2) #reparar errores en la matriz de rojos
-        rep2x2 = np.zeros([height*2, width*2, 3], np.uint8)
-        rep2x2[:,:,0] = rep1x2[:,:,0]
-        rep2x2[:,:,1] = rep1x2[:,:,1]
-        rep2x2[:,:,2] = rep1x2[:,:,2]
-        for i in range(0, height*2-1):
-            for j in range(0, width*2):
-                if rep1x2[i,j,0]==0:
-                    rep2x2[i,j,0]= (rep1x2[i-1,j,0]/2+rep1x2[i+1,j,0]/2) #reparar errores en la matriz de azules
-                if rep2x2[i,j,1]==0:
-                    rep2x2[i,j,1]= (rep1x2[i-1,j,1]/2+rep1x2[i+1,j,1]/2) #reparar errores en la matriz de verdes
-                if rep2x2[i,j,2]==0:
-                    rep2x2[i,j,2]= (rep1x2[i-1,j,2]/2+rep1x2[i+1,j,2]/2) #reparar errores en la matriz de rojos
-
-        cv2.imshow('zoom X2 REPARADA ', rep2x2)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()       
         
-
-
-
-
-        for i in range(0, height*2):
-            for j in range(0, width*2):
-                pos = np.array([[i], [j], [1]])  # Creamos la matriz de posiciones
-                translation = np.dot(transMat2, pos)  # Realizamos el producto punto entre las martices
-                img3[translation[0], translation[1]] = rep2x2[i, j]
-
-        cv2.imshow('zoom X4 ', img3)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-        rep1x4 = np.zeros([height*4, width*4, 3], np.uint8)
-        rep1x4[:,:,0] = img3[:,:,0]
-        rep1x4[:,:,1] = img3[:,:,1]
-        rep1x4[:,:,2] = img3[:,:,2]
-        for i in range(0, height*4):
-            for j in range(0, width*4-1):
-                if rep1x4[i,j,0]==0:
-                    rep1x4[i,j,0]= (img3[i,j-1,0]/2+img3[i,j+1,0]/2) #reparar errores en la matriz de azules
-                if rep1x4[i,j,1]==0:
-                    rep1x4[i,j,1]= (img3[i,j-1,1]/2+img3[i,j+1,1]/2) #reparar errores en la matriz de verdes
-                if rep1x4[i,j,2]==0:
-                    rep1x4[i,j,2]= (img3[i,j-1,2]/2+img3[i,j+1,2]/2) #reparar errores en la matriz de rojos
-        rep2x4 = np.zeros([height*4, width*4, 3], np.uint8)
-        rep2x4[:,:,0] = rep1x4[:,:,0]
-        rep2x4[:,:,1] = rep1x4[:,:,1]
-        rep2x4[:,:,2] = rep1x4[:,:,2]
-        for i in range(0, height*4-1):
-            for j in range(0, width*4):
-                if rep1x4[i,j,0]==0:
-                    rep2x4[i,j,0]= (rep1x4[i-1,j,0]/2+rep1x4[i+1,j,0]/2) #reparar errores en la matriz de azules
-                if rep2x4[i,j,1]==0:
-                    rep2x4[i,j,1]= (rep1x4[i-1,j,1]/2+rep1x4[i+1,j,1]/2) #reparar errores en la matriz de verdes
-                if rep2x4[i,j,2]==0:
-                    rep2x4[i,j,2]= (rep1x4[i-1,j,2]/2+rep1x4[i+1,j,2]/2) #reparar errores en la matriz de rojos
-
-        cv2.imshow('zoom X4 REPARADA ', rep2x4)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-
-
-
-
-        for i in range(0, height*2):
-            for j in range(0, width*2):
-                pos = np.array([[i], [j], [1]])  # Creamos la matriz de posiciones
-                translation = np.dot(transMat3, pos)  # Realizamos el producto punto entre las martices
-                img4[translation[0], translation[1]] = rep2x4[i, j]  
-
-        cv2.imshow('zoom X6 ', img4)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-        rep1x6 = np.zeros([height*6, width*6, 3], np.uint8)
-        rep1x6[:,:,0] = img4[:,:,0]
-        rep1x6[:,:,1] = img4[:,:,1]
-        rep1x6[:,:,2] = img4[:,:,2]
-        for i in range(0, height*6):
-            for j in range(0, width*6-1):
-                if rep1x6[i,j,0]==0:
-                    rep1x6[i,j,0]= (img4[i,j-1,0]/2+img4[i,j+1,0]/2) #reparar errores en la matriz de azules
-                if rep1x6[i,j,1]==0:
-                    rep1x6[i,j,1]= (img4[i,j-1,1]/2+img4[i,j+1,1]/2) #reparar errores en la matriz de verdes
-                if rep1x6[i,j,2]==0:
-                    rep1x6[i,j,2]= (img4[i,j-1,2]/2+img4[i,j+1,2]/2) #reparar errores en la matriz de rojos
-        rep2x6 = np.zeros([height*6, width*6, 3], np.uint8)
-        rep2x6[:,:,0] = rep1x6[:,:,0]
-        rep2x6[:,:,1] = rep1x6[:,:,1]##esto es un comentario
-        rep2x6[:,:,2] = rep1x6[:,:,2]
-        for i in range(0, height*6-1):
-            for j in range(0, width*6):
-                if rep1x6[i,j,0]==0:
-                    rep2x6[i,j,0]= (rep1x6[i-1,j,0]/2+rep1x6[i+1,j,0]/2) #reparar errores en la matriz de azules
-                if rep2x6[i,j,1]==0:
-                    rep2x6[i,j,1]= (rep1x6[i-1,j,1]/2+rep1x6[i+1,j,1]/2) #reparar errores en la matriz de verdes
-                if rep2x6[i,j,2]==0:
-                    rep2x6[i,j,2]= (rep1x6[i-1,j,2]/2+rep1x6[i+1,j,2]/2) #reparar errores en la matriz de rojos
-
-        cv2.imshow('zoom X6 REPARADA ', rep2x6)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-
-
-
-
 
 
 

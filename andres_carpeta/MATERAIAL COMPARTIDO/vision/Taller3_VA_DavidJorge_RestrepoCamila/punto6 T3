@@ -1,0 +1,37 @@
+import cv2
+import numpy as np
+
+img=cv2.imread('img2.JPEG')
+
+kernelCI=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
+kernelRE=cv2.getStructuringElement(cv2.MORPH_RECT,(3,3))
+kernelCR=cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
+
+apertura=cv2.morphologyEx(img,cv2.MORPH_OPEN,kernelCI,iterations=1)
+apertura=cv2.morphologyEx(apertura,cv2.MORPH_OPEN,kernelRE,iterations=1)
+apertura=cv2.morphologyEx(apertura,cv2.MORPH_OPEN,kernelCR,iterations=1)
+
+apertura=cv2.morphologyEx(apertura,cv2.MORPH_OPEN,kernelCI,iterations=1)
+apertura=cv2.morphologyEx(apertura,cv2.MORPH_OPEN,kernelRE,iterations=1)
+apertura=cv2.morphologyEx(apertura,cv2.MORPH_OPEN,kernelCR,iterations=1)
+
+_,resultado=cv2.threshold(apertura, 100, 255, cv2.THRESH_TOZERO)
+
+#erosion=cv2.erode(apertura,kernelCI, iterations=1)
+
+#dilatacion=cv2.dilate(erosion,kernelCII, iterations=1)
+#erosion=cv2.erode(erosion,kernelRE, iterations=1)
+#erosion=cv2.erode(erosion,kernelCR, iterations=1)
+
+#dilatacion=cv2.dilate(erosion,kernelCI,iterations=2)
+
+
+
+cv2.imshow('resultado',resultado)
+#cv2.imshow('cierre',cierre)
+cv2.imshow('imagen',img)
+#cv2.imshow('erosion',erosion)
+cv2.imshow('apertura',apertura)
+#cv2.imshow('dilatacion',dilatacion)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

@@ -1,0 +1,21 @@
+import cv2
+import numpy as np
+
+img=cv2.imread('img1.JPEG')
+
+kernel11=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(11,11))
+kernel12=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
+kernelR=cv2.getStructuringElement(cv2.MORPH_RECT,(3,3))
+kernelC=cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
+
+
+apertura=cv2.morphologyEx(img,cv2.MORPH_OPEN,kernel11,iterations=1)
+
+_,th=cv2.threshold(apertura, 160, 255, cv2.THRESH_TOZERO)
+
+
+cv2.imshow('apertura',apertura)
+cv2.imshow('resultado',th)
+cv2.imshow('imagen',img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

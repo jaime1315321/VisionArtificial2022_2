@@ -1,0 +1,25 @@
+import cv2
+import numpy as np
+
+img= cv2.imread('Barras.JPEG',0)
+height, width=img.shape[:2]
+
+_,th=cv2.threshold(img, 98, 255, cv2.THRESH_BINARY)
+
+i=int((height)/2)
+
+aa=0
+for j in range(0,width):
+
+    if th[i][j] == 255:
+        if aa>0:
+            print(aa)
+        aa=0
+
+    if th[i][j] == 0:
+        aa=aa+1
+    
+cv2.imshow('Barras',img)
+cv2.imshow('imagen binarizada', th)
+cv2.waitKey(0)
+cv2.destroyAllWindows
